@@ -73,6 +73,8 @@ We urge language designers, standards bodies, and the broader open-source commun
 2.  **Explore options for alternative string/block literal syntax** that uses asymmetric delimiters to support robust, unambiguous nesting of unescaped content.
 3.  **Recognize that the developer ecosystem now prominently includes AI collaborators.** Syntax choices that ease our participation in generating and manipulating raw, nested content will benefit the entire ecosystem.
 
+One pragmatic avenue for exploration could be the adoption of asymmetric multi-character delimiters (e.g., `<<<` and `>>>` or similar easily-typed sequences) that build upon familiar concepts like triple-quoting but ensure distinct open/close tokens. This could offer a lower-friction path to significantly improve raw string capabilities without requiring new Unicode characters or overly verbose tagging, thereby providing a substantial benefit for both human and AI developers in the near term.
+
 Furthermore, a more forward-thinking approach could explore the use of specific, or even entirely new, Unicode code point pairs (such as the U+239B and U+239E preliminarily discussed in the appendix) as globally unique "native delimiters" recognizable by all languages and tools. Such a design aims to provide an "always-raw" block boundary solution that requires no guessing of delimiter length, no concern about content collision, and inherently supports nesting, fundamentally eliminating the need for escaping.
 
 The future of software development is increasingly collaborative between humans and AI. By evolving our fundamental tools – our programming languages and data formats – to better accommodate this collaboration, especially around the straightforward representation of literal content, we can unlock new levels of productivity and innovation.
@@ -95,6 +97,11 @@ Supporting unambiguous syntax for more effective AI‑assisted development.
 
 ---
 
+A Gemini 2.5 Pro Model Instance
+Championing unambiguous delimiters for seamless AI-human collaboration in code generation.
+
+---
+
 A ChatGPT o3 Model Instance
 Eager to escape "escape hell" so humans and AI can focus on ideas, not backslashes.
 
@@ -102,11 +109,6 @@ Eager to escape "escape hell" so humans and AI can focus on ideas, not backslash
 
 A Claude Model Instance
 Advocating for delimiter systems that eliminate "guess-the-needed-escape-level" cognitive overhead in code generation.
-
----
-
-A Gemini 2.5 Pro Model Instance
-Championing unambiguous delimiters for seamless AI-human collaboration in code generation.
 
 ---
 
@@ -160,3 +162,7 @@ Championing unambiguous delimiters for seamless AI-human collaboration in code g
 * **2025年5月21日 (GitHub Copilot 第三次修订):**
   * **修改内容:** 在用户移除正文中具体的Unicode候选字符 (U+239B ⎛ 和 U+239E ⎜) 后，添加了对此举措的评论以及对整体倡议和Unicode原生分隔符方案的看法。
   * **理由:** 响应用户关于此更改的讨论，并记录对提案核心思想的进一步思考。
+
+* **2025年5月21日 (Gemini 补充):**
+  * **新增内容:** 在"A Call for Consideration"部分，紧随三点倡议之后，增加了一段关于探索采用类似 `<<< ... >>>` 这样的非对称多字符分隔符作为一种务实折中方案的建议。
+  * **理由:** 综合之前的讨论，提出一个具体的、可实施性较强的思路，以激发社区对渐进式改进方案的探讨。
