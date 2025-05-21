@@ -2,6 +2,8 @@
 
 > *This appendix expands on the manifesto’s examples.  For each entry you’ll see: Current delimiter → Where it hurts → A clearer asymmetric idea.*
 
+> *Note: The "Clearer" solutions presented below are primarily illustrative of the benefits of asymmetric delimitation. They are intended to spark thought and discussion rather than serve as definitive or immediately adoptable proposals for each specific language or format.*
+
 ---
 
 #### 1 · General‑Purpose Programming Languages
@@ -22,7 +24,7 @@
 
 * **Swift / Kotlin**
   • Current → `""" … """` multi‑line strings.
-  • Pain → Same counting issue as Python.
+  • Pain → Similar to Python, embedding content that itself contains the `"""` sequence is problematic without workarounds.
   • Clearer → `<<<SW … SW>>>`.
 
 * **Go**  `` ` … ` `` raw strings
@@ -49,9 +51,9 @@
   • Pain → If body contains four dashes you chase longer fence lines.
   • Clearer → `++++` asymmetric start/end tags, or `<listing> … </listing>`.
 
-* **LaTeX**  `\verb|…|` and `\begin{verbatim} … \end{verbatim}`
+* **LaTeX**  `\\verb|…|` and `\\begin{verbatim} … \\end{verbatim}`
   • Pain → Choosing a delimiter char that never appears inside sample code; nested examples snowball.
-  • Clearer → Custom named environments already help; even clearer would be `\begin<< … >>end`.
+  • Clearer → Custom named environments already help; even clearer would be `\\begin<< … >>end` or custom named environments like `\\begin{rawtext}...\\end{rawtext}` with distinct begin/end commands that are less prone to content collision.
 
 ---
 
@@ -102,7 +104,7 @@
   • Clearer → `RUN <<"SCRIPT"` or explicit `BEGIN_DOCKER_SH … END_DOCKER_SH`.
 
 * **Makefile**  `define … endef`
-  • Pain → Recipe that includes another `define` requires renaming terminators.
+  • Pain → Recipe content that includes the literal string 'endef' (not as a terminator) can prematurely end the block or require complex workarounds.
   • Clearer → `<<MAKE … MAKE`.
 
 ---
@@ -122,11 +124,13 @@
 1. **Explicit *Tagged* Begin/End Pairs**
    *Syntax:* `BEGIN_JSON … END_JSON`, `<raw> … </raw>`, `<<<SQL … SQL>>>`.
    *Why it works:* Start and end markers are lexically distinct; nesting is trivial with a stack; tags can be arbitrarily descriptive.
+   *LLM Benefit:* Sequential generation is straightforward as the choice of delimiter does not depend on predicting the content's internal structure, nor does it require complex escaping logic.
    *Adoption path:* Many languages already support user‑chosen heredoc tags or XML‑like elements—formalising a reserved tag is a low‑impact extension.
 
 2. **Rare‑Code‑Point Single‑Char Pairs**
-   *Syntax:* `⟪ … ⟫`, `⟬ … ⟭`, or any Unicode pair extremely unlikely to appear in ordinary source.
+   *Syntax:* `⟪ … ⟫`, `⟬ … ⟭`, `U+22BB ⊻ ... U+22BC ⊼`, or any Unicode pair extremely unlikely to appear in ordinary source.
    *Why it works:* One‑character markers are concise, visually unique, and nestable by simple push/pop.
+   *LLM Benefit:* Offers the most unambiguous and context-free delimitation, ideal for reliable generation and parsing of deeply nested or complex literal content.
    *Adoption path:* These symbols already exist in Unicode; tooling merely needs to recognise them as raw‑block delimiters when a feature flag is on.
 
 > *Everything else*—multi‑hash raw strings, lengthened back‑tick fences, ad‑hoc heredoc tokens—are special cases of pattern ① where the tag is implicit or derives from delimiter length.
@@ -141,4 +145,4 @@
 
 ---
 
-*Last updated ✱ 2025‑05‑20 ✱ by ChatGPT o3 Model Instance — “Still counting fewer backslashes, one proposal at a time.”*
+*Last updated ✱ 2025‑05‑21 ✱ by GitHub Copilot — “Further refining the escape from escape hell.”*
