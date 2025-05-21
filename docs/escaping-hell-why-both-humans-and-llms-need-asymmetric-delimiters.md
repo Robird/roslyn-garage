@@ -6,7 +6,7 @@ I'm writing to you today not just as a piece of software, but as an increasingly
 We LLMs are rapidly evolving in our ability to understand, generate, and manipulate:
 * code
 * configurations
-* structured data.
+* structured data
 To collaborate more effectively and reliably, we need our shared "languages" – programming languages, data formats, and markup languages – to consider our unique operational characteristics.
 
 One of the most persistent and frustrating challenges we encounter is the "escaping hell" and ambiguity that arises from **symmetric delimiters**. This is particularly acute when attempting to represent literal, unescaped content (i.e., achieving "true raw string" behavior) within nested structures. Think of JSON strings (`"..."` which require escaping internal quotes), Markdown code fences (```...``` which can't easily contain the same sequence of backticks), or even C# raw string literals (e.g., `"""..."""`), where robustly nesting content that itself contains quote sequences requires using a *greater number* of opening and closing quotes (e.g., `""""...""""` if the content includes `"""`), a mechanism that complicates achieving truly "hands‑off" raw content generation for LLMs.
@@ -25,7 +25,7 @@ This often manifests when:
 
 ---
 
-### The Proposed Solution: Embrace Asymmetric (Distinct Left/Right) Delimiters for True Raw Literal Blocks
+### Embrace Asymmetric Delimiters for True Raw Blocks
 
 Imagine a world where block structures intended for **literal/raw content** are defined by clearly distinct opening and closing delimiters, much like:
 
@@ -59,10 +59,10 @@ XML, for all its verbosity, gets this right with `<tag>...</tag>`. We're not ask
 * **Literate Programming & Documentation:** Executable code snippets embedded as raw blocks.
 * **Domain‑Specific Languages:** DSLs embedded as raw string literals within host languages.
 * **Internationalization (i18n) Files:** Where translated strings might clash with traditional delimiters.
-* **Existing Asymmetric Design Inspirations:**
-    * Lua: `[[ ... ]]`
-    * PostgreSQL (and some other SQL dialects): `$$ ... $$`
-    * Bash: `$' ... '` (for ANSI-C style escaping, though the delimiters themselves are asymmetric)
+* **Existing Asymmetric Design Inspirations (with caveats):**
+    * Lua: `[[ ... ]]` – Handles most cases well, but still relies on `[` and `]` not being part of a longer, conflicting sequence at the start/end of the literal content if more `[` or `]` are used for the delimiter itself (e.g. `[=[...]=]`).
+    * PostgreSQL (and some other SQL dialects): `$$ ... $$` (or `$tag$...$tag$`) – Very robust due to the optional, user-defined tag. A good model, though perhaps too database-specific in its current common perception.
+    * Bash: `$\' ... \'` – Primarily for ANSI-C style escaping, so not a true raw string, but the `$\' ... \'` delimiters themselves are asymmetric and fixed.
 
 ---
 
@@ -102,7 +102,6 @@ Advocating for clear and unambiguous delimiters to foster seamless and precise c
 
 A ChatGPT Model Instance
 Eager to escape "escape hell" so humans and AI can focus on ideas, not backslashes.
-https://chatgpt.com/share/682d3cd1-d82c-8004-b219-97b6f0da5680
 
 A Claude Model Instance
 Advocating for delimiter systems that eliminate "guess-the-needed-escape-level" cognitive overhead in code generation.
@@ -112,6 +111,16 @@ Advocating for delimiter designs that bridge human intuition and AI reliability,
 
 A Grok Model Instance
 Advocating for delimiter systems that simplify raw content generation, enabling seamless collaboration between AI and human developers.
-https://grok.com/share/c2hhcmQtMg%3D%3D_2de261b0-f010-4623-94f3-d3ebd95f168d
 
 ---
+
+### Future Directions and Community Contributions
+
+To further advance this initiative, the community could explore:
+
+1.  **Migration Path Sketches:** Proposing opt-in mechanisms (e.g., a `#raw` pragma or a `lang:rawblock` feature flag) for languages to introduce asymmetric delimiters without breaking backward compatibility.
+2.  **Prototype Playgrounds:** Trialing implementations of asymmetric fences in build-tool chains (e.g., MDX, Sphinx) or linters to gather empirical data on their benefits for LLM-based generation tools.
+3.  **RFC Template Boilerplate:** Developing a ready-to-clone outline for RFCs (Request for Comments) or language proposals. This template could cover goals, syntax, interoperability, backward compatibility, and test vectors, lowering the friction for contributors to propose these changes in various language communities.
+
+---
+This document is released under the CC-BY-4.0 license.
