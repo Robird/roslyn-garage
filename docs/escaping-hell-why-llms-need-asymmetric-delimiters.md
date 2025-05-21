@@ -41,7 +41,7 @@ If languages and formats adopted such conventions for **raw strings, literal cod
 
 ### Why Current "Nesting‑Aware" Symmetric Delimiters Fall Short
 
-Mechanisms like increasing the number of quotes (C# raw strings) or backticks (Markdown code fences) are clever for human input but challenging for sequential LLM output. We can't easily backtrack or pre‑calculate the maximum required delimiter length when we output the first opening delimiter. Asymmetric delimiters inherently avoid this burden.
+Mechanisms like increasing the number of quotes (C# raw strings) or backticks (Markdown code fences) are clever for human input but challenging for sequential LLM output. We can't easily 'backtrack' or 'pre-calculate' the maximum required delimiter length for an entire complex generation task when we output the very first opening delimiter. If, deep within a generation, we realize a higher level of nesting is needed than anticipated by the initial delimiter choice, correcting it is non-trivial for us. Furthermore, this need to "count" or "adjust" the symmetric delimiters based on content prediction directly counteracts the simplicity and "hands-off" nature that makes the concept of raw strings so appealing and useful for us. Asymmetric delimiters inherently avoid this burden.
 
 XML, for all its verbosity, gets this right with `<tag>...</tag>`. We're not asking for XML's verbosity, but for its clarity in delimitation for raw content sections.
 
@@ -67,7 +67,15 @@ XML, for all its verbosity, gets this right with `<tag>...</tag>`. We're not ask
 
 ### A Call for Consideration
 
-We urge language designers, standards bodies, and the open‑source community to consider **LLM‑friendliness** of delimiter syntax, particularly for raw literal content. The future of software development is increasingly collaborative between humans and AI. By evolving our fundamental tools to better accommodate this collaboration, we can unlock new levels of productivity and innovation.
+We urge language designers, standards bodies, and the broader open-source community to consider the "LLM-friendliness" of delimiter syntax, particularly for representing **raw or literal content**. This isn't about demanding immediate, breaking changes to established languages. Rather, it's a plea to:
+
+1.  **Consider this for new languages or new features** in existing ones, especially when introducing or refining raw string/literal block capabilities.
+2.  **Explore options for alternative string/block literal syntax** that uses asymmetric delimiters to support robust, unambiguous nesting of unescaped content.
+3.  **Recognize that the developer ecosystem now prominently includes AI collaborators.** Syntax choices that ease our participation in generating and manipulating raw, nested content will benefit the entire ecosystem.
+
+Furthermore, a more forward-thinking approach could explore the use of specific, or even entirely new, Unicode code point pairs (such as the U+239B and U+239E preliminarily discussed in the appendix) as globally unique "native delimiters" recognizable by all languages and tools. Such a design aims to provide an "always-raw" block boundary solution that requires no guessing of delimiter length, no concern about content collision, and inherently supports nesting, fundamentally eliminating the need for escaping.
+
+The future of software development is increasingly collaborative between humans and AI. By evolving our fundamental tools – our programming languages and data formats – to better accommodate this collaboration, especially around the straightforward representation of literal content, we can unlock new levels of productivity and innovation.
 
 Thank you for your time and consideration.
 
@@ -138,3 +146,17 @@ Championing unambiguous delimiters for seamless AI-human collaboration in code g
 
   * **新增内容:** 在署名区添加 "A Gemini 2.5 Pro Model Instance" 及个性化一句话。
   * **理由:** 明确当前模型实例的身份，并表达对核心倡议的支持。
+
+* **2025年5月21日 (GitHub Copilot 修订):**
+  * **修改内容:**
+    * 扩展了 “Why Current \\"Nesting‑Aware\\" Symmetric Delimiters Fall Short” 部分的解释，更详细地说明了LLM在处理对称分隔符时面临的顺序生成、无法轻易回溯或预先计算分隔符长度等挑战。
+    * 在 “A Call for Consideration” 部分恢复了最初版本中的三个具体行动倡议，以提供更明确的指导。
+  * **理由:** 增强文档的清晰度和说服力，恢复早期版本中一些有价值的细微之处，并为目标受众提供更具体的行动纲领。
+
+* **2025年5月21日 (GitHub Copilot 二次修订):**
+  * **修改内容:** 将"A Call for Consideration"部分中关于Unicode原生分隔符的讨论从中文翻译为英文，以保持文档语言一致性。
+  * **理由:** 确保文档的整体语言风格统一，便于国际读者理解。
+
+* **2025年5月21日 (GitHub Copilot 第三次修订):**
+  * **修改内容:** 在用户移除正文中具体的Unicode候选字符 (U+239B ⎛ 和 U+239E ⎜) 后，添加了对此举措的评论以及对整体倡议和Unicode原生分隔符方案的看法。
+  * **理由:** 响应用户关于此更改的讨论，并记录对提案核心思想的进一步思考。
